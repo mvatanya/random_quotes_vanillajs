@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <title>Document</title>
+  <style>
+    .container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Raleway', sans-serif;
+    }
+
+    #textBox {
+      display: flex;
+      flex-direction: column;
+      width: 450px;
+      padding: 40px 50px;
+      background-color: white;
+    }
+    #quoteNode {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      justify-content: center;
+      font-size: 1.75em;
+      font-family: 'Raleway', sans-serif;
+      /* font-weight: bold; */
+      text-align: center;
+    }
+
+    #authorNode {
+      margin-top: 20px;
+      align-self: flex-end;
+      right: 0;
+      font-size: 1.15 em;
+    }
+    .footer {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .socialGroup {
+      display: flex;
+    }
+    #linkedin {
+      margin-left: 10px;
+      color: white;
+    }
+    #twitter{
+      color: white;
+    }
+    #newButton{
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+  <div class='container'>
+    <div id='textBox'></div>
+  </div>
+  
+</body>
+</html>
+
+<script>
+
+  async function getRandomQuote(){
+    let response = await fetch('https://type.fit/api/quotes')
+    let dataSet = await response.json() 
+    let quote = dataSet[Math.floor(Math.random() * dataSet.length)]
+    return quote
+  }
+  let color;
+  function getRandomColor(){
+    let colors = ['coral', 'lightblue',  'khaki', 'pink', 'lightgreen']
+    color = colors[Math.floor(Math.random() * colors.length)]
+    console.log(color)
+    return color
+  }
+  
+  async function callme(){
+    let colorRandom = getRandomColor()
+    document.querySelector('body').style.backgroundColor = colorRandom
+    let textBox = document.getElementById('textBox')
+    let quote = await getRandomQuote()
+    console.log(quote)
+    let quoteNode = document.createElement('div')
+    quoteNode.setAttribute('id', 'quoteNode')
+    quoteNode.textContent = `${quote.text}`
+    let authorNode = document.createElement('div')
+    authorNode.setAttribute('id', 'authorNode')
+    authorNode.textContent = quote.author
+    textBox.appendChild(quoteNode)
+    textBox.appendChild(authorNode)
+    let newQuoteButton = document.createElement('button')
+    newQuoteButton.setAttribute('id', 'newButton')
+    newQuoteButton.innerText = 'New Quote'
+    
+    newQuoteButton.style.backgroundColor = color
+    newQuoteButton.setAttribute('class', 'btn')
+    textBox.appendChild(newQuoteButton)
+    let footer = document.createElement('div')
+    footer.setAttribute('class', 'footer')
+    textBox.appendChild(footer)
+    let twitterButton = document.createElement('button')
+    twitterButton.setAttribute('id', 'twitter')
+    twitterButton.style.backgroundColor = color
+    twitterButton.setAttribute('class', 'btn')
+    twitterButton.innerText = 'Twitter'
+    let linkedinButton = document.createElement('button')
+    linkedinButton.setAttribute('id', 'linkedin')
+    linkedinButton.setAttribute('class', 'btn')
+    linkedinButton.innerText = 'Linkedin'
+    linkedinButton.style.backgroundColor = color
+
+    let socialGroup = document.createElement('div')
+    socialGroup.setAttribute('class', 'socialGroup')
+    socialGroup.appendChild(twitterButton)
+    socialGroup.appendChild(linkedinButton)
+    socialGroup.appendChild(twitterButton)
+    socialGroup.appendChild(linkedinButton)
+    footer.appendChild(socialGroup)
+    footer.appendChild(newQuoteButton)
+
+    newQuoteButton.onclick = () => {
+      reload()
+    }
+  }
+
+  callme()
+  
+
+  function reload(){
+    console.log('here')
+    location.reload()
+  }
+
+</script>
+
